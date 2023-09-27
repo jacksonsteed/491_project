@@ -23,9 +23,9 @@ library("dplyr")
 library("ggplot2")
 library("readxl")
 
-players2009 <- read_csv("NCAA data/CollegeBasketballPlayers2009-2021.csv")
-players2022 <- read_csv("NCAA data/CollegeBasketballPlayers2022.csv")
-drafted <- read_xlsx("NCAA data/DraftedPlayers2009-2021.xlsx")
+players2009 <- read_csv("Resources/CollegeBasketballPlayers2009-2021.csv")
+players2022 <- read_csv("Resources/CollegeBasketballPlayers2022.csv")
+drafted <- read_xlsx("Resources/DraftedPlayers2009-2021.xlsx")
 
 selected_player_data <- players2009 %>% select(player_name, team, pid, ht, pts, ast, stl, blk, treb, Ortg, drtg, year)
 
@@ -41,5 +41,36 @@ max(selected_player_data["Ortg"])
 filter(selected_player_data, Ortg > 380)
 
 
+```
+
+
+```{r}
+install.packages(c("httr", "jsonlite", "dplyr"))
+```
+
+```{r}
+# Does elevation change how a player performs?
+# Similar players, abilities, check their elevation
+
+library(httr)
+library(jsonlite)
+library(dplyr)
+
+# Read the CSV file
+cities <- read.csv("Resources/CityLatLong.csv")
+
+# Create a function to get elevation
+get_elevation <- function(lat, lon) {
+  query <- paste0("https://api.open-elevation.com/api/v1/lookup?locations=", lat, ",", lon)
+  res <- GET(query)
+  data <- fromJSON(rawToChar(res$content))
+  return(data$results$elevation)
+}
+
+# Add a new column 'elevation' to the dataframe
+cities <- cities %>% 
+  mutate(elevation = mapply(get_elevation, Lat, Long))
+
+cities
 ```
 
