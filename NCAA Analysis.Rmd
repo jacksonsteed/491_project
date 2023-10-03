@@ -47,13 +47,33 @@ filter(selected_player_data, Ortg > 380)
 ```{r}
 #Question: Are high Offensive or Defensive metrics more likly to get you drafted?
 
-#Import libraries
+#import data 
 library("tidyverse") 
 library("dplyr")
 library("ggplot2")
 library("readxl")
 
-selected_player_data
+#read in csv files
+players <- read_csv("Resources/CollegeBasketballPlayers2009-2021.csv")
+height <- read_csv("Resources/NewHeights.csv")
+
+#get fields required from players
+playersUsed <- select(players, player_name, pick)
+
+combined_ph <- cbind(playerUsed, height)
+
+draftedPlayersHDR <- subset(combined_ph, !is.na(pick))
+
+
+ggplot(draftedPlayers, aes(x = pick, y = ht)) +
+  geom_point() +
+  labs(title = "Scatter Plot of Height vs Draft Pick", x = "Draft Pick", y = "Height")
+
+
+
+
+
+
 
 ```
 
