@@ -23,9 +23,9 @@ library("dplyr")
 library("ggplot2")
 library("readxl")
 
-players2009 <- read_csv("NCAA data/CollegeBasketballPlayers2009-2021.csv")
-players2022 <- read_csv("NCAA data/CollegeBasketballPlayers2022.csv")
-drafted <- read_xlsx("NCAA data/DraftedPlayers2009-2021.xlsx")
+players2009 <- read_csv("Resources/CollegeBasketballPlayers2009-2021.csv")
+players2022 <- read_csv("Resources/CollegeBasketballPlayers2022.csv")
+drafted <- read_xlsx("Resources/DraftedPlayers2009-2021.xlsx")
 
 selected_player_data <- players2009 %>% select(player_name, team, pid, ht, pts, ast, stl, blk, treb, Ortg, drtg, year)
 
@@ -36,9 +36,43 @@ plot(selected_player_data[,"Ortg"])
 pts_box
 pts_hist
 team <- selected_player_data[, "team"]
-unique(team)
+uniqueteam <- unique(team)
+
 max(selected_player_data["Ortg"])
 filter(selected_player_data, Ortg > 380)
+
+
+```
+
+```{r}
+#Question: Are high Offensive or Defensive metrics more likly to get you drafted?
+
+#import data 
+library("tidyverse") 
+library("dplyr")
+library("ggplot2")
+library("readxl")
+
+#read in csv files
+players <- read_csv("Resources/CollegeBasketballPlayers2009-2021.csv")
+height <- read_csv("Resources/NewHeights.csv")
+
+#get fields required from players
+playersUsed <- select(players, player_name, pick)
+
+combined_ph <- cbind(playerUsed, height)
+
+draftedPlayersHDR <- subset(combined_ph, !is.na(pick))
+
+
+ggplot(draftedPlayers, aes(x = pick, y = ht)) +
+  geom_point() +
+  labs(title = "Scatter Plot of Height vs Draft Pick", x = "Draft Pick", y = "Height")
+
+
+
+
+
 
 
 ```
