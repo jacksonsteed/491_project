@@ -70,9 +70,12 @@ ggplot(draftedPlayers, aes(x = pick, y = ht)) +
   labs(title = "Scatter Plot of Height vs Draft Pick", x = "Draft Pick", y = "Height")
 
 
+num_bins <- 3
 
+# Create equal-width bins for the "pick" column
+bins <- cut(draftedPlayersHDR$pick, breaks = seq(min(draftedPlayersHDR$pick), max(draftedPlayersHDR$pick), length.out = num_bins + 1), include.lowest = TRUE)
 
-
+print(bins)
 
 
 ```
