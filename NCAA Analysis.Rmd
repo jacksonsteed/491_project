@@ -80,18 +80,6 @@ print(bins)
 
 ```
 
-<<<<<<< Updated upstream
-
-```{r}
-library("dplyr")
-final_data <- read_csv("FinalData.csv")
-
-
-
-```
-
-
-=======
 ```{r}
 library("dplyr")
 final_data <- read_csv("FinalData.csv")
@@ -107,6 +95,23 @@ for(i in 1:nrow(final_data)){
 
 write_csv(final_data, "FinalData.csv")
 
+
+#split into train and test after sorting
+final_data <- final_data %>% arrange(desc(drafted))
+
+drafted_1 <- final_data %>% filter(drafted == 1) %>%
+  sample_frac(0.8) # Adjust the fraction as needed for training data
+
+# Sample rows where drafted = 0
+drafted_0 <- final_data %>% filter(drafted == 0) %>%
+  sample_frac(0.8) # Adjust the fraction as needed for training data
+
+# Combine sampled data for training dataset
+training_data <- bind_rows(drafted_1, drafted_0)
+
+# Create testing dataset by removing rows used in training dataset
+testing_data <- final_data %>% anti_join(training_data)
+
+
 ```
 
->>>>>>> Stashed changes
