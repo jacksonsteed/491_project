@@ -80,6 +80,7 @@ print(bins)
 
 ```
 
+<<<<<<< Updated upstream
 
 ```{r}
 library("dplyr")
@@ -90,3 +91,22 @@ final_data <- read_csv("FinalData.csv")
 ```
 
 
+=======
+```{r}
+library("dplyr")
+final_data <- read_csv("FinalData.csv")
+final_data <- final_data %>% mutate(drafted = NA)
+for(i in 1:nrow(final_data)){
+  if(is.na(final_data$pick[i])){
+    final_data$drafted[i] = 0
+  }
+  else{
+    final_data$drafted[i] = 1
+  }
+}
+
+write_csv(final_data, "FinalData.csv")
+
+```
+
+>>>>>>> Stashed changes
