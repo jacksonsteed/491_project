@@ -80,3 +80,13 @@ print(bins)
 
 ```
 
+
+```{r}
+library("dplyr")
+final_data <- read_csv("FinalData.csv")
+
+
+
+```
+
+
