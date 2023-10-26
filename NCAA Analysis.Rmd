@@ -3,19 +3,6 @@ title: "R Notebook"
 output: html_notebook
 ---
 
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
-
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
-
-```{r}
-plot(cars)
-```
-
-Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
-
-When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
-
-The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
 ```{r}
 #import data 
 library("tidyverse") 
@@ -27,7 +14,7 @@ players2009 <- read_csv("Resources/CollegeBasketballPlayers2009-2021.csv")
 players2022 <- read_csv("Resources/CollegeBasketballPlayers2022.csv")
 drafted <- read_xlsx("Resources/DraftedPlayers2009-2021.xlsx")
 
-selected_player_data <- players2009 %>% select(player_name, team, pid, ht, pts, ast, stl, blk, treb, Ortg, drtg, year)
+selected_player_data <- players2009 %>% select(player_name, team, pid, ht, pts, ast, stl, blk, treb, Ortg, drtg, year, Min_per, TS_per, pick, twoPM, TPM, FTM)
 
 summary(selected_player_data)
 pts_box <- ggplot(selected_player_data, aes(y = pts), na.rm = TRUE) + geom_boxplot(fill = '#69b3a2', color='black', alpha = 1) + labs(title = "Boxplot of PTS")
@@ -41,6 +28,18 @@ max(selected_player_data["Ortg"])
 filter(selected_player_data, Ortg > 380)
 
 
+```
+
+```{r}
+# Remove rows with NAs in the "pick" column
+data_cleaned <- na.omit(selected_player_data, cols = "pick")
+data_cleaned
+plot(data_cleaned$Ortg, 
+     type = "p")
+plot(data_cleaned$drtg, 
+     type = "p")
+plot(data_cleaned$TS_per, 
+     type = "p")
 ```
 
 
