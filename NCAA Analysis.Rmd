@@ -67,7 +67,10 @@ draftedPlayersHDR <- subset(combined_ph, !is.na(pick))
 
 selected_player_data <- players %>% select(player_name, team, pick, pid, pts, ast, stl, blk, treb, Ortg, drtg, year)
 combined_player_data <- cbind(selected_player_data, height)
-merged_data <- left_join(combined_player_data, unique_team, by = c("team" = "team"))
+
+merged_data <- left_join(combined_player_data, unique_team, by = c("team" = "team")) %>%
+  filter(height >= 5.0 & height <= 8.0)
+
 write_csv(merged_data,"FinalData.csv")
 
 
@@ -80,7 +83,7 @@ write_csv(merged_data,"FinalData.csv")
 players <- read_csv("Resources/CollegeBasketballPlayers2009-2021.csv")
 height <- read_csv("Resources/NewHeights.csv")
 unique_team <- read_csv("Resources/unique_team.csv")
-selected_player_data <- players2009 %>% select(player_name, team, pid, ht, pts, ast, stl, blk, treb, Ortg, drtg, year)
+selected_player_data <- players %>% select(player_name, team, pid, ht, pts, ast, stl, blk, treb, Ortg, drtg, year)
 merged_data <- left_join(selected_player_data, unique_team, by = c("team" = "team"))
 
 set.seed(123) 
@@ -93,36 +96,9 @@ ggplot(data, aes(x = variable1, y = variable2, color = cluster)) +
 ```
 
 ```{r}
-library("dplyr")
-final_data <- read_csv("FinalData.csv")
-final_data <- final_data %>% mutate(drafted = NA)
-for(i in 1:nrow(final_data)){
-  if(is.na(final_data$pick[i])){
-    final_data$drafted[i] = 0
-  }
-  else{
-    final_data$drafted[i] = 1
-  }
-}
-
-write_csv(final_data, "FinalData.csv")
-
-
-#split into train and test after sorting
-final_data <- final_data %>% arrange(desc(drafted))
-
-drafted_1 <- final_data %>% filter(drafted == 1) %>%
-  sample_frac(0.8) # Adjust the fraction as needed for training data
-
-# Sample rows where drafted = 0
-drafted_0 <- final_data %>% filter(drafted == 0) %>%
-  sample_frac(0.8) # Adjust the fraction as needed for training data
-
-# Combine sampled data for training dataset
-training_data <- bind_rows(drafted_1, drafted_0)
-
-# Create testing dataset by removing rows used in training dataset
-testing_data <- final_data %>% anti_join(training_data)
+#Classification algorithm 
+install.packages("class")
+library(class)
 
 
 ```
