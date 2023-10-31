@@ -23,6 +23,7 @@ library(ggplot2)
 ```{r}
 fileName <- "FinalData.csv"
 data <- read_csv(show_col_types = FALSE, fileName)
+data
 ```
 ```{r}
 # Select features for clustering
@@ -42,7 +43,10 @@ scaled_data <- na.omit(scaled_data)
 # Determine the number of clusters (you can adjust this)
 k <- 4
 
-data <- data[complete.cases(data), ]
+# Omit rows with NA values from both 'data' and 'scaled_data'
+complete_cases <- complete.cases(data)
+data <- data[complete_cases, ]
+scaled_data <- scaled_data[complete_cases, ]
 
 # Perform K-Means clustering
 kmeans_model <- kmeans(scaled_data, centers = k)
@@ -53,15 +57,11 @@ data$cluster <- as.factor(kmeans_model$cluster)
 cluster_means <- aggregate(. ~ cluster, data, mean)
 cluster_medians <- aggregate(. ~ cluster, data, median)
 
-ggplot(data, aes(x = cluster, y = pts)) +
-  geom_boxplot() +
-  labs(title = "Distribution of Points by Cluster")
-```
-
-```{r}
 # Visualize the clusters
-
 ggplot(data, aes(pts, `elevation (m)`, color = cluster)) +
   geom_point() +
   labs(title = "K-Means Clustering of NCAA Basketball Players")
+```
+
+```{r}
 ```

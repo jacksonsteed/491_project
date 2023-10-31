@@ -99,8 +99,6 @@ ggplot(data, aes(x = variable1, y = variable2, color = cluster)) +
 #Classification algorithm 
 install.packages("class")
 library(class)
-
-
 ```
 
 ```{r}
