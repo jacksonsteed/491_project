@@ -39,9 +39,10 @@ scaled_data <- na.omit(scaled_data)
 ```
 
 ```{r}
-
 # Determine the number of clusters (you can adjust this)
 k <- 4
+
+data <- data[complete.cases(data), ]
 
 # Perform K-Means clustering
 kmeans_model <- kmeans(scaled_data, centers = k)
@@ -49,6 +50,15 @@ kmeans_model <- kmeans(scaled_data, centers = k)
 # Add the cluster assignment to the original data
 data$cluster <- as.factor(kmeans_model$cluster)
 
+cluster_means <- aggregate(. ~ cluster, data, mean)
+cluster_medians <- aggregate(. ~ cluster, data, median)
+
+ggplot(data, aes(x = cluster, y = pts)) +
+  geom_boxplot() +
+  labs(title = "Distribution of Points by Cluster")
+```
+
+```{r}
 # Visualize the clusters
 
 ggplot(data, aes(pts, `elevation (m)`, color = cluster)) +
