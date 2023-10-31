@@ -1511,7 +1511,7 @@ window.initializeCodeFolding = function(show) {
     $(this).detach().appendTo(div);
 
     // add a show code button right above
-    var showCodeText = $('<span>' + (showThis ? 'Hide' : 'Code') + '</span>');
+    var showCodeText = $('<span>' + (showThis ? 'Hide' : 'Show') + '</span>');
     var showCodeButton = $('<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm code-folding-btn pull-right float-right"></button>');
     showCodeButton.append(showCodeText);
     showCodeButton
@@ -1537,7 +1537,7 @@ window.initializeCodeFolding = function(show) {
     //   * Change text
     //   * add a class for intermediate states styling
     div.on('hide.bs.collapse', function () {
-      showCodeText.text('Code');
+      showCodeText.text('Show');
       showCodeButton.addClass('btn-collapsing');
     });
     div.on('hidden.bs.collapse', function () {
@@ -1784,83 +1784,46 @@ The preview shows you a rendered HTML copy of the contents of the editor. Conseq
 &lt;!-- rnb-chunk-begin --&gt;
 
 
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI2ltcG9ydCBkYXRhIFxubGlicmFyeShcInRpZHl2ZXJzZVwiKSBcbmxpYnJhcnkoXCJkcGx5clwiKVxubGlicmFyeShcImdncGxvdDJcIilcbmxpYnJhcnkoXCJyZWFkeGxcIilcblxucGxheWVyczIwMDkgPC0gcmVhZF9jc3YoXCJSZXNvdXJjZXMvQ29sbGVnZUJhc2tldGJhbGxQbGF5ZXJzMjAwOS0yMDIxLmNzdlwiKVxucGxheWVyczIwMjIgPC0gcmVhZF9jc3YoXCJSZXNvdXJjZXMvQ29sbGVnZUJhc2tldGJhbGxQbGF5ZXJzMjAyMi5jc3ZcIilcbmRyYWZ0ZWQgPC0gcmVhZF94bHN4KFwiUmVzb3VyY2VzL0RyYWZ0ZWRQbGF5ZXJzMjAwOS0yMDIxLnhsc3hcIilcblxuc2VsZWN0ZWRfcGxheWVyX2RhdGEgPC0gcGxheWVyczIwMDkgJT4lIHNlbGVjdChwbGF5ZXJfbmFtZSwgdGVhbSwgcGlkLCBodCwgcHRzLCBhc3QsIHN0bCwgYmxrLCB0cmViLCBPcnRnLCBkcnRnLCB5ZWFyKVxuXG5zdW1tYXJ5KHNlbGVjdGVkX3BsYXllcl9kYXRhKVxucHRzX2JveCA8LSBnZ3Bsb3Qoc2VsZWN0ZWRfcGxheWVyX2RhdGEsIGFlcyh5ID0gcHRzKSwgbmEucm0gPSBUUlVFKSArIGdlb21fYm94cGxvdChmaWxsID0gJyM2OWIzYTInLCBjb2xvcj0nYmxhY2snLCBhbHBoYSA9IDEpICsgbGFicyh0aXRsZSA9IFwiQm94cGxvdCBvZiBQVFNcIilcbnB0c19oaXN0IDwtIGdncGxvdChzZWxlY3RlZF9wbGF5ZXJfZGF0YSwgYWVzKHggPSBwdHMpKSArIGdlb21faGlzdG9ncmFtKGJpbndpZHRoID0gMSwgZmlsbCA9IFwieWVsbG93XCIsIGNvbG9yID0gXCJibGFja1wiKSArIGxhYnModGl0bGUgPSBcIkRpc3RyaWJ1dGlvbiBvZiBQVFNcIiwgeCA9IFwiUFRTXCIpXG5wbG90KHNlbGVjdGVkX3BsYXllcl9kYXRhWyxcIk9ydGdcIl0pXG5wdHNfYm94XG5wdHNfaGlzdFxudGVhbSA8LSBzZWxlY3RlZF9wbGF5ZXJfZGF0YVssIFwidGVhbVwiXVxudW5pcXVldGVhbSA8LSB1bmlxdWUodGVhbSlcblxubWF4KHNlbGVjdGVkX3BsYXllcl9kYXRhW1wiT3J0Z1wiXSlcbmZpbHRlcihzZWxlY3RlZF9wbGF5ZXJfZGF0YSwgT3J0ZyA+IDM4MClcblxuXG5gYGAifQ== --&gt;
+&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuI2ltcG9ydCBkYXRhIFxubGlicmFyeShcXHRpZHl2ZXJzZVxcKSBcbmxpYnJhcnkoXFxkcGx5clxcKVxubGlicmFyeShcXGdncGxvdDJcXClcbmxpYnJhcnkoXFxyZWFkeGxcXClcblxucGxheWVyczIwMDkgPC0gcmVhZF9jc3YoXFxSZXNvdXJjZXMvQ29sbGVnZUJhc2tldGJhbGxQbGF5ZXJzMjAwOS0yMDIxLmNzdlxcKVxucGxheWVyczIwMjIgPC0gcmVhZF9jc3YoXFxSZXNvdXJjZXMvQ29sbGVnZUJhc2tldGJhbGxQbGF5ZXJzMjAyMi5jc3ZcXClcbmRyYWZ0ZWQgPC0gcmVhZF94bHN4KFxcUmVzb3VyY2VzL0RyYWZ0ZWRQbGF5ZXJzMjAwOS0yMDIxLnhsc3hcXClcblxuc2VsZWN0ZWRfcGxheWVyX2RhdGEgPC0gcGxheWVyczIwMDkgJT4lIHNlbGVjdChwbGF5ZXJfbmFtZSwgdGVhbSwgcGlkLCBodCwgcHRzLCBhc3QsIHN0bCwgYmxrLCB0cmViLCBPcnRnLCBkcnRnLCB5ZWFyKVxuXG5zdW1tYXJ5KHNlbGVjdGVkX3BsYXllcl9kYXRhKVxucHRzX2JveCA8LSBnZ3Bsb3Qoc2VsZWN0ZWRfcGxheWVyX2RhdGEsIGFlcyh5ID0gcHRzKSwgbmEucm0gPSBUUlVFKSArIGdlb21fYm94cGxvdChmaWxsID0gJyM2OWIzYTInLCBjb2xvcj0nYmxhY2snLCBhbHBoYSA9IDEpICsgbGFicyh0aXRsZSA9IFxcQm94cGxvdCBvZiBQVFNcXClcbnB0c19oaXN0IDwtIGdncGxvdChzZWxlY3RlZF9wbGF5ZXJfZGF0YSwgYWVzKHggPSBwdHMpKSArIGdlb21faGlzdG9ncmFtKGJpbndpZHRoID0gMSwgZmlsbCA9IFxceWVsbG93XFwsIGNvbG9yID0gXFxibGFja1xcKSArIGxhYnModGl0bGUgPSBcXERpc3RyaWJ1dGlvbiBvZiBQVFNcXCwgeCA9IFxcUFRTXFwpXG5wbG90KHNlbGVjdGVkX3BsYXllcl9kYXRhWyxcXE9ydGdcXF0pXG5wdHNfYm94XG5wdHNfaGlzdFxudGVhbSA8LSBzZWxlY3RlZF9wbGF5ZXJfZGF0YVssIFxcdGVhbVxcXVxudW5pcXVldGVhbSA8LSB1bmlxdWUodGVhbSlcblxubWF4KHNlbGVjdGVkX3BsYXllcl9kYXRhW1xcT3J0Z1xcXSlcbmZpbHRlcihzZWxlY3RlZF9wbGF5ZXJfZGF0YSwgT3J0ZyA+IDM4MClcblxuXG5gYGBcbmBgYCJ9 --&gt;
 
 ```r
+```r
 #import data 
-library(&quot;tidyverse&quot;) 
-library(&quot;dplyr&quot;)
-library(&quot;ggplot2&quot;)
-library(&quot;readxl&quot;)
+library(\tidyverse\) 
+library(\dplyr\)
+library(\ggplot2\)
+library(\readxl\)
 
-players2009 &lt;- read_csv(&quot;Resources/CollegeBasketballPlayers2009-2021.csv&quot;)
-players2022 &lt;- read_csv(&quot;Resources/CollegeBasketballPlayers2022.csv&quot;)
-drafted &lt;- read_xlsx(&quot;Resources/DraftedPlayers2009-2021.xlsx&quot;)
+players2009 &lt;- read_csv(\Resources/CollegeBasketballPlayers2009-2021.csv\)
+players2022 &lt;- read_csv(\Resources/CollegeBasketballPlayers2022.csv\)
+drafted &lt;- read_xlsx(\Resources/DraftedPlayers2009-2021.xlsx\)
 
 selected_player_data &lt;- players2009 %&gt;% select(player_name, team, pid, ht, pts, ast, stl, blk, treb, Ortg, drtg, year)
 
 summary(selected_player_data)
-pts_box &lt;- ggplot(selected_player_data, aes(y = pts), na.rm = TRUE) + geom_boxplot(fill = &#39;#69b3a2&#39;, color=&#39;black&#39;, alpha = 1) + labs(title = &quot;Boxplot of PTS&quot;)
-pts_hist &lt;- ggplot(selected_player_data, aes(x = pts)) + geom_histogram(binwidth = 1, fill = &quot;yellow&quot;, color = &quot;black&quot;) + labs(title = &quot;Distribution of PTS&quot;, x = &quot;PTS&quot;)
-plot(selected_player_data[,&quot;Ortg&quot;])
+pts_box &lt;- ggplot(selected_player_data, aes(y = pts), na.rm = TRUE) + geom_boxplot(fill = &#39;#69b3a2&#39;, color=&#39;black&#39;, alpha = 1) + labs(title = \Boxplot of PTS\)
+pts_hist &lt;- ggplot(selected_player_data, aes(x = pts)) + geom_histogram(binwidth = 1, fill = \yellow\, color = \black\) + labs(title = \Distribution of PTS\, x = \PTS\)
+plot(selected_player_data[,\Ortg\])
 pts_box
 pts_hist
-team &lt;- selected_player_data[, &quot;team&quot;]
+team &lt;- selected_player_data[, \team\]
 uniqueteam &lt;- unique(team)
 
-max(selected_player_data[&quot;Ortg&quot;])
+max(selected_player_data[\Ortg\])
 filter(selected_player_data, Ortg &gt; 380)
 </code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI1F1ZXN0aW9uOiBBcmUgaGlnaCBPZmZlbnNpdmUgb3IgRGVmZW5zaXZlIG1ldHJpY3MgbW9yZSBsaWtseSB0byBnZXQgeW91IGRyYWZ0ZWQ/XG5cbiNpbXBvcnQgZGF0YSBcbmxpYnJhcnkoXCJ0aWR5dmVyc2VcIikgXG5saWJyYXJ5KFwiZHBseXJcIilcbmxpYnJhcnkoXCJnZ3Bsb3QyXCIpXG5saWJyYXJ5KFwicmVhZHhsXCIpXG5cbiNyZWFkIGluIGNzdiBmaWxlc1xucGxheWVycyA8LSByZWFkX2NzdihcIlJlc291cmNlcy9Db2xsZWdlQmFza2V0YmFsbFBsYXllcnMyMDA5LTIwMjEuY3N2XCIpXG5gYGAifQ== -->
-<pre class="r"><code>#Question: Are high Offensive or Defensive metrics more likly to get you drafted?
+
 
 #import data 
-library(&quot;tidyverse&quot;) 
-library(&quot;dplyr&quot;)
-library(&quot;ggplot2&quot;)
-library(&quot;readxl&quot;)
+library(\tidyverse\) 
+library(\dplyr\)
+library(\ggplot2\)
+library(\readxl\)
 
 #read in csv files
-players &lt;- read_csv(&quot;Resources/CollegeBasketballPlayers2009-2021.csv&quot;)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiTmV3IG5hbWVzOldhcm5pbmc6IE9uZSBvciBtb3JlIHBhcnNpbmcgaXNzdWVzLCBjYWxsIGBwcm9ibGVtcygpYCBvbiB5b3VyIGRhdGEgZnJhbWUgZm9yIGRldGFpbHMsIGUuZy46XG4gIGRhdCA8LSB2cm9vbSguLi4pXG4gIHByb2JsZW1zKGRhdClSb3dzOiA2MTA2MSBDb2x1bW5zOiA2NuKUgOKUgCBDb2x1bW4gc3BlY2lmaWNhdGlvbiDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIBcbkRlbGltaXRlcjogXCIsXCJcbmNociAgKDcpOiBwbGF5ZXJfbmFtZSwgdGVhbSwgY29uZiwgeXIsIGh0LCB0eXBlLCAuLi42NVxuZGJsICg1OSk6IEdQLCBNaW5fcGVyLCBPcnRnLCB1c2csIGVGRywgVFNfcGVyLCBPUkJfcGVyLCBEUkJfcGVyLCBBU1RfcGVyLCBUT19wZXIsIEZUTSwgRlRBLi4uXG7ihLkgVXNlIGBzcGVjKClgIHRvIHJldHJpZXZlIHRoZSBmdWxsIGNvbHVtbiBzcGVjaWZpY2F0aW9uIGZvciB0aGlzIGRhdGEuXG7ihLkgU3BlY2lmeSB0aGUgY29sdW1uIHR5cGVzIG9yIHNldCBgc2hvd19jb2xfdHlwZXMgPSBGQUxTRWAgdG8gcXVpZXQgdGhpcyBtZXNzYWdlLlxuIn0= -->
-<pre><code>New names:Warning: One or more parsing issues, call `problems()` on your data frame for details, e.g.:
-  dat &lt;- vroom(...)
-  problems(dat)Rows: 61061 Columns: 66── Column specification ──────────────────────────────────────────────────────────────────────
-Delimiter: &quot;,&quot;
-chr  (7): player_name, team, conf, yr, ht, type, ...65
-dbl (59): GP, Min_per, Ortg, usg, eFG, TS_per, ORB_per, DRB_per, AST_per, TO_per, FTM, FTA...
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaGVpZ2h0IDwtIHJlYWRfY3N2KFwiUmVzb3VyY2VzL05ld0hlaWdodHMuY3N2XCIpXG5gYGAifQ== -->
-<pre class="r"><code>height &lt;- read_csv(&quot;Resources/NewHeights.csv&quot;)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiUm93czogNjEwNjEgQ29sdW1uczogMeKUgOKUgCBDb2x1bW4gc3BlY2lmaWNhdGlvbiDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIBcbkRlbGltaXRlcjogXCIsXCJcbmNociAoMSk6IGh0XG7ihLkgVXNlIGBzcGVjKClgIHRvIHJldHJpZXZlIHRoZSBmdWxsIGNvbHVtbiBzcGVjaWZpY2F0aW9uIGZvciB0aGlzIGRhdGEuXG7ihLkgU3BlY2lmeSB0aGUgY29sdW1uIHR5cGVzIG9yIHNldCBgc2hvd19jb2xfdHlwZXMgPSBGQUxTRWAgdG8gcXVpZXQgdGhpcyBtZXNzYWdlLlxuIn0= -->
-<pre><code>Rows: 61061 Columns: 1── Column specification ──────────────────────────────────────────────────────────────────────
-Delimiter: &quot;,&quot;
-chr (1): ht
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudW5pcXVlX3RlYW0gPC0gcmVhZF9jc3YoXCJSZXNvdXJjZXMvdW5pcXVlX3RlYW0uY3N2XCIpXG5gYGAifQ== -->
-<pre class="r"><code>unique_team &lt;- read_csv(&quot;Resources/unique_team.csv&quot;)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiUm93czogMzYyIENvbHVtbnM6IDLilIDilIAgQ29sdW1uIHNwZWNpZmljYXRpb24g4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSAXG5EZWxpbWl0ZXI6IFwiLFwiXG5jaHIgKDEpOiB0ZWFtXG5kYmwgKDEpOiBlbGV2YXRpb24gKG0pXG7ihLkgVXNlIGBzcGVjKClgIHRvIHJldHJpZXZlIHRoZSBmdWxsIGNvbHVtbiBzcGVjaWZpY2F0aW9uIGZvciB0aGlzIGRhdGEuXG7ihLkgU3BlY2lmeSB0aGUgY29sdW1uIHR5cGVzIG9yIHNldCBgc2hvd19jb2xfdHlwZXMgPSBGQUxTRWAgdG8gcXVpZXQgdGhpcyBtZXNzYWdlLlxuIn0= -->
-<pre><code>Rows: 362 Columns: 2── Column specification ──────────────────────────────────────────────────────────────────────
-Delimiter: &quot;,&quot;
-chr (1): team
-dbl (1): elevation (m)
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI2dldCBmaWVsZHMgcmVxdWlyZWQgZnJvbSBwbGF5ZXJzXG5wbGF5ZXJVc2VkIDwtIHNlbGVjdChwbGF5ZXJzLCBwbGF5ZXJfbmFtZSwgcGljaylcblxuY29tYmluZWRfcGggPC0gY2JpbmQocGxheWVyVXNlZCwgaGVpZ2h0KVxuXG5kcmFmdGVkUGxheWVyc0hEUiA8LSBzdWJzZXQoY29tYmluZWRfcGgsICFpcy5uYShwaWNrKSlcblxuc2VsZWN0ZWRfcGxheWVyX2RhdGEgPC0gcGxheWVycyAlPiUgc2VsZWN0KHBsYXllcl9uYW1lLCB0ZWFtLCBwaWNrLCBwaWQsIHB0cywgYXN0LCBzdGwsIGJsaywgdHJlYiwgT3J0ZywgZHJ0ZywgeWVhcilcbmNvbWJpbmVkX3BsYXllcl9kYXRhIDwtIGNiaW5kKHNlbGVjdGVkX3BsYXllcl9kYXRhLCBoZWlnaHQpXG5cbm1lcmdlZF9kYXRhIDwtIGxlZnRfam9pbihjb21iaW5lZF9wbGF5ZXJfZGF0YSwgdW5pcXVlX3RlYW0sIGJ5ID0gYyhcInRlYW1cIiA9IFwidGVhbVwiKSkgJT4lXG4gIGZpbHRlcihoZWlnaHQgPj0gNS4wICYgaGVpZ2h0IDw9IDguMClcbmBgYCJ9 -->
-<pre class="r"><code>#get fields required from players
+
+
+#get fields required from players
 playerUsed &lt;- select(players, player_name, pick)
 
 combined_ph &lt;- cbind(playerUsed, height)
@@ -1870,28 +1833,7 @@ draftedPlayersHDR &lt;- subset(combined_ph, !is.na(pick))
 selected_player_data &lt;- players %&gt;% select(player_name, team, pick, pid, pts, ast, stl, blk, treb, Ortg, drtg, year)
 combined_player_data &lt;- cbind(selected_player_data, height)
 
-merged_data &lt;- left_join(combined_player_data, unique_team, by = c(&quot;team&quot; = &quot;team&quot;)) %&gt;%
-  filter(height &gt;= 5.0 &amp; height &lt;= 8.0)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiV2FybmluZzogVXNpbmcgb25lIGNvbHVtbiBtYXRyaWNlcyBpbiBgZmlsdGVyKClgIHdhcyBkZXByZWNhdGVkIGluIGRwbHlyIDEuMS4wLlxuUGxlYXNlIHVzZSBvbmUgZGltZW5zaW9uYWwgbG9naWNhbCB2ZWN0b3JzIGluc3RlYWQuXG4ifQ== -->
-<pre><code>Warning: Using one column matrices in `filter()` was deprecated in dplyr 1.1.0.
-Please use one dimensional logical vectors instead.</code></pre>
-<!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud3JpdGVfY3N2KG1lcmdlZF9kYXRhLFwiRmluYWxEYXRhLmNzdlwiKVxuXG5cbmBgYCJ9 -->
-<pre class="r"><code>write_csv(merged_data,&quot;FinalData.csv&quot;)
-</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucGxheWVycyA8LSByZWFkX2NzdihcIlJlc291cmNlcy9Db2xsZWdlQmFza2V0YmFsbFBsYXllcnMyMDA5LTIwMjEuY3N2XCIpXG5oZWlnaHQgPC0gcmVhZF9jc3YoXCJSZXNvdXJjZXMvTmV3SGVpZ2h0cy5jc3ZcIilcbnVuaXF1ZV90ZWFtIDwtIHJlYWRfY3N2KFwiUmVzb3VyY2VzL3VuaXF1ZV90ZWFtLmNzdlwiKVxuc2VsZWN0ZWRfcGxheWVyX2RhdGEgPC0gcGxheWVycyAlPiUgc2VsZWN0KHBsYXllcl9uYW1lLCB0ZWFtLCBwaWQsIGh0LCBwdHMsIGFzdCwgc3RsLCBibGssIHRyZWIsIE9ydGcsIGRydGcsIHllYXIpXG5tZXJnZWRfZGF0YSA8LSBsZWZ0X2pvaW4oc2VsZWN0ZWRfcGxheWVyX2RhdGEsIHVuaXF1ZV90ZWFtLCBieSA9IGMoXCJ0ZWFtXCIgPSBcInRlYW1cIikpXG5cbnNldC5zZWVkKDEyMykgXG5rbWVhbnNfcmVzdWx0IDwtIGttZWFucyhtZXJnZWRfZGF0YSwgY2VudGVycyA9IDMpXG5wcmludChrbWVhbnNfcmVzdWx0JGNsdXN0ZXIpXG5cbmdncGxvdChkYXRhLCBhZXMoeCA9IHZhcmlhYmxlMSwgeSA9IHZhcmlhYmxlMiwgY29sb3IgPSBjbHVzdGVyKSkgKyBcbiAgZ2VvbV9wb2ludCgpICtcbiAgdGhlbWVfbWluaW1hbCgpXG5gYGAifQ== -->
-<pre class="r"><code>players &lt;- read_csv(&quot;Resources/CollegeBasketballPlayers2009-2021.csv&quot;)
-height &lt;- read_csv(&quot;Resources/NewHeights.csv&quot;)
-unique_team &lt;- read_csv(&quot;Resources/unique_team.csv&quot;)
-selected_player_data &lt;- players %&gt;% select(player_name, team, pid, ht, pts, ast, stl, blk, treb, Ortg, drtg, year)
-merged_data &lt;- left_join(selected_player_data, unique_team, by = c(&quot;team&quot; = &quot;team&quot;))
-
+\
 set.seed(123) 
 kmeans_result &lt;- kmeans(merged_data, centers = 3)
 print(kmeans_result$cluster)
@@ -1909,12 +1851,6 @@ ggplot(data, aes(x = variable1, y = variable2, color = cluster)) +
 install.packages(&quot;class&quot;)
 library(class)
 </code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKVGhpcyBpcyBhbiBbUiBNYXJrZG93bl0oaHR0cDovL3JtYXJrZG93bi5yc3R1ZGlvLmNvbSkgTm90ZWJvb2suIFdoZW4geW91IGV4ZWN1dGUgY29kZSB3aXRoaW4gdGhlIG5vdGVib29rLCB0aGUgcmVzdWx0cyBhcHBlYXIgYmVuZWF0aCB0aGUgY29kZS4gCgpUcnkgZXhlY3V0aW5nIHRoaXMgY2h1bmsgYnkgY2xpY2tpbmcgdGhlICpSdW4qIGJ1dHRvbiB3aXRoaW4gdGhlIGNodW5rIG9yIGJ5IHBsYWNpbmcgeW91ciBjdXJzb3IgaW5zaWRlIGl0IGFuZCBwcmVzc2luZyAqQ3RybCtTaGlmdCtFbnRlciouIAoKYGBge3J9CnBsb3QoY2FycykKYGBgCgpBZGQgYSBuZXcgY2h1bmsgYnkgY2xpY2tpbmcgdGhlICpJbnNlcnQgQ2h1bmsqIGJ1dHRvbiBvbiB0aGUgdG9vbGJhciBvciBieSBwcmVzc2luZyAqQ3RybCtBbHQrSSouCgpXaGVuIHlvdSBzYXZlIHRoZSBub3RlYm9vaywgYW4gSFRNTCBmaWxlIGNvbnRhaW5pbmcgdGhlIGNvZGUgYW5kIG91dHB1dCB3aWxsIGJlIHNhdmVkIGFsb25nc2lkZSBpdCAoY2xpY2sgdGhlICpQcmV2aWV3KiBidXR0b24gb3IgcHJlc3MgKkN0cmwrU2hpZnQrSyogdG8gcHJldmlldyB0aGUgSFRNTCBmaWxlKS4KClRoZSBwcmV2aWV3IHNob3dzIHlvdSBhIHJlbmRlcmVkIEhUTUwgY29weSBvZiB0aGUgY29udGVudHMgb2YgdGhlIGVkaXRvci4gQ29uc2VxdWVudGx5LCB1bmxpa2UgKktuaXQqLCAqUHJldmlldyogZG9lcyBub3QgcnVuIGFueSBSIGNvZGUgY2h1bmtzLiBJbnN0ZWFkLCB0aGUgb3V0cHV0IG9mIHRoZSBjaHVuayB3aGVuIGl0IHdhcyBsYXN0IHJ1biBpbiB0aGUgZWRpdG9yIGlzIGRpc3BsYXllZC4KYGBge3J9CiNpbXBvcnQgZGF0YSAKbGlicmFyeSgidGlkeXZlcnNlIikgCmxpYnJhcnkoImRwbHlyIikKbGlicmFyeSgiZ2dwbG90MiIpCmxpYnJhcnkoInJlYWR4bCIpCgpwbGF5ZXJzMjAwOSA8LSByZWFkX2NzdigiUmVzb3VyY2VzL0NvbGxlZ2VCYXNrZXRiYWxsUGxheWVyczIwMDktMjAyMS5jc3YiKQpwbGF5ZXJzMjAyMiA8LSByZWFkX2NzdigiUmVzb3VyY2VzL0NvbGxlZ2VCYXNrZXRiYWxsUGxheWVyczIwMjIuY3N2IikKZHJhZnRlZCA8LSByZWFkX3hsc3goIlJlc291cmNlcy9EcmFmdGVkUGxheWVyczIwMDktMjAyMS54bHN4IikKCnNlbGVjdGVkX3BsYXllcl9kYXRhIDwtIHBsYXllcnMyMDA5ICU+JSBzZWxlY3QocGxheWVyX25hbWUsIHRlYW0sIHBpZCwgaHQsIHB0cywgYXN0LCBzdGwsIGJsaywgdHJlYiwgT3J0ZywgZHJ0ZywgeWVhcikKCnN1bW1hcnkoc2VsZWN0ZWRfcGxheWVyX2RhdGEpCnB0c19ib3ggPC0gZ2dwbG90KHNlbGVjdGVkX3BsYXllcl9kYXRhLCBhZXMoeSA9IHB0cyksIG5hLnJtID0gVFJVRSkgKyBnZW9tX2JveHBsb3QoZmlsbCA9ICcjNjliM2EyJywgY29sb3I9J2JsYWNrJywgYWxwaGEgPSAxKSArIGxhYnModGl0bGUgPSAiQm94cGxvdCBvZiBQVFMiKQpwdHNfaGlzdCA8LSBnZ3Bsb3Qoc2VsZWN0ZWRfcGxheWVyX2RhdGEsIGFlcyh4ID0gcHRzKSkgKyBnZW9tX2hpc3RvZ3JhbShiaW53aWR0aCA9IDEsIGZpbGwgPSAieWVsbG93IiwgY29sb3IgPSAiYmxhY2siKSArIGxhYnModGl0bGUgPSAiRGlzdHJpYnV0aW9uIG9mIFBUUyIsIHggPSAiUFRTIikKcGxvdChzZWxlY3RlZF9wbGF5ZXJfZGF0YVssIk9ydGciXSkKcHRzX2JveApwdHNfaGlzdAp0ZWFtIDwtIHNlbGVjdGVkX3BsYXllcl9kYXRhWywgInRlYW0iXQp1bmlxdWV0ZWFtIDwtIHVuaXF1ZSh0ZWFtKQoKbWF4KHNlbGVjdGVkX3BsYXllcl9kYXRhWyJPcnRnIl0pCmZpbHRlcihzZWxlY3RlZF9wbGF5ZXJfZGF0YSwgT3J0ZyA+IDM4MCkKCgpgYGAKCmBgYHtyfQojUXVlc3Rpb246IEFyZSBoaWdoIE9mZmVuc2l2ZSBvciBEZWZlbnNpdmUgbWV0cmljcyBtb3JlIGxpa2x5IHRvIGdldCB5b3UgZHJhZnRlZD8KCiNpbXBvcnQgZGF0YSAKbGlicmFyeSgidGlkeXZlcnNlIikgCmxpYnJhcnkoImRwbHlyIikKbGlicmFyeSgiZ2dwbG90MiIpCmxpYnJhcnkoInJlYWR4bCIpCgojcmVhZCBpbiBjc3YgZmlsZXMKcGxheWVycyA8LSByZWFkX2NzdigiUmVzb3VyY2VzL0NvbGxlZ2VCYXNrZXRiYWxsUGxheWVyczIwMDktMjAyMS5jc3YiKQpoZWlnaHQgPC0gcmVhZF9jc3YoIlJlc291cmNlcy9OZXdIZWlnaHRzLmNzdiIpCnVuaXF1ZV90ZWFtIDwtIHJlYWRfY3N2KCJSZXNvdXJjZXMvdW5pcXVlX3RlYW0uY3N2IikKCiNnZXQgZmllbGRzIHJlcXVpcmVkIGZyb20gcGxheWVycwpwbGF5ZXJVc2VkIDwtIHNlbGVjdChwbGF5ZXJzLCBwbGF5ZXJfbmFtZSwgcGljaykKCmNvbWJpbmVkX3BoIDwtIGNiaW5kKHBsYXllclVzZWQsIGhlaWdodCkKCmRyYWZ0ZWRQbGF5ZXJzSERSIDwtIHN1YnNldChjb21iaW5lZF9waCwgIWlzLm5hKHBpY2spKQoKc2VsZWN0ZWRfcGxheWVyX2RhdGEgPC0gcGxheWVycyAlPiUgc2VsZWN0KHBsYXllcl9uYW1lLCB0ZWFtLCBwaWNrLCBwaWQsIHB0cywgYXN0LCBzdGwsIGJsaywgdHJlYiwgT3J0ZywgZHJ0ZywgeWVhcikKY29tYmluZWRfcGxheWVyX2RhdGEgPC0gY2JpbmQoc2VsZWN0ZWRfcGxheWVyX2RhdGEsIGhlaWdodCkKCm1lcmdlZF9kYXRhIDwtIGxlZnRfam9pbihjb21iaW5lZF9wbGF5ZXJfZGF0YSwgdW5pcXVlX3RlYW0sIGJ5ID0gYygidGVhbSIgPSAidGVhbSIpKSAlPiUKICBmaWx0ZXIoaGVpZ2h0ID49IDUuMCAmIGhlaWdodCA8PSA4LjApCgp3cml0ZV9jc3YobWVyZ2VkX2RhdGEsIkZpbmFsRGF0YS5jc3YiKQoKCmBgYAoKCgoKYGBge3J9CnBsYXllcnMgPC0gcmVhZF9jc3YoIlJlc291cmNlcy9Db2xsZWdlQmFza2V0YmFsbFBsYXllcnMyMDA5LTIwMjEuY3N2IikKaGVpZ2h0IDwtIHJlYWRfY3N2KCJSZXNvdXJjZXMvTmV3SGVpZ2h0cy5jc3YiKQp1bmlxdWVfdGVhbSA8LSByZWFkX2NzdigiUmVzb3VyY2VzL3VuaXF1ZV90ZWFtLmNzdiIpCnNlbGVjdGVkX3BsYXllcl9kYXRhIDwtIHBsYXllcnMgJT4lIHNlbGVjdChwbGF5ZXJfbmFtZSwgdGVhbSwgcGlkLCBodCwgcHRzLCBhc3QsIHN0bCwgYmxrLCB0cmViLCBPcnRnLCBkcnRnLCB5ZWFyKQptZXJnZWRfZGF0YSA8LSBsZWZ0X2pvaW4oc2VsZWN0ZWRfcGxheWVyX2RhdGEsIHVuaXF1ZV90ZWFtLCBieSA9IGMoInRlYW0iID0gInRlYW0iKSkKCnNldC5zZWVkKDEyMykgCmttZWFuc19yZXN1bHQgPC0ga21lYW5zKG1lcmdlZF9kYXRhLCBjZW50ZXJzID0gMykKcHJpbnQoa21lYW5zX3Jlc3VsdCRjbHVzdGVyKQoKZ2dwbG90KGRhdGEsIGFlcyh4ID0gdmFyaWFibGUxLCB5ID0gdmFyaWFibGUyLCBjb2xvciA9IGNsdXN0ZXIpKSArIAogIGdlb21fcG9pbnQoKSArCiAgdGhlbWVfbWluaW1hbCgpCmBgYAoKYGBge3J9CiNDbGFzc2lmaWNhdGlvbiBhbGdvcml0aG0gCmluc3RhbGwucGFja2FnZXMoImNsYXNzIikKbGlicmFyeShjbGFzcykKCgpgYGAKCg==</div>
 
 
 
