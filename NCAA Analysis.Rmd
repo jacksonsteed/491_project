@@ -112,7 +112,7 @@ training_data <- bind_rows(drafted_1, drafted_0)
 # Create testing dataset by removing rows used in training dataset
 testing_data <- final_data %>% anti_join(training_data)
 
-
+#benji is cool
 ```
 
 ```{r}
