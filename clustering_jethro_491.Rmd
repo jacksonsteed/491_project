@@ -1,0 +1,57 @@
+---
+title: "clustering_jethro_491"
+author: "Jethro Infante"
+date: "2023-10-31"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(readr)
+library(tidyverse)
+library(rpart)
+library(rpart.plot)
+library(randomForest)
+library(tidyverse)
+library(cluster)
+library(ggplot2)
+```
+
+```{r}
+fileName <- "FinalData.csv"
+data <- read_csv(show_col_types = FALSE, fileName)
+```
+```{r}
+# Select features for clustering (pts and ast)
+clustering_data <- data %>% select(pts, ast)
+
+# Scale the data (important for K-Means)
+scaled_data <- scale(clustering_data)
+
+na_matrix <- is.na(scaled_data)
+total_na_count <- sum(na_matrix)
+
+#data <- na.omit(data)
+scaled_data <- na.omit(scaled_data)
+```
+
+```{r}
+
+# Determine the number of clusters (you can adjust this)
+k <- 3
+
+# Perform K-Means clustering
+kmeans_model <- kmeans(scaled_data, centers = k)
+
+# Add the cluster assignment to the original data
+data$cluster <- as.factor(kmeans_model$cluster)
+
+# Visualize the clusters
+
+ggplot(data, aes(pts, ast, color = cluster)) +
+  geom_point() +
+  labs(title = "K-Means Clustering of NCAA Basketball Players")
+```
