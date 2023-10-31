@@ -103,3 +103,24 @@ library(class)
 
 ```
 
+```{r}
+#Decision Tree
+library(rpart) 
+library(rpart.plot)
+library(randomForest)
+library(tidyverse)
+
+
+#read in csv files
+players <- read_csv("Resources/CollegeBasketballPlayers2009-2021.csv")
+height <- read_csv("Resources/NewHeights.csv")
+
+
+
+draftedPlayersHDR
+dtree <- rpart(class ~ ., data = model.matrix(draftedPlayersHDR))
+rpart.plot(dtree)
+
+
+
+```
