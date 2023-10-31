@@ -136,8 +136,9 @@ rpart.plot(dtree)
 draftedPlayersHDR
 dtree <- rpart(class ~ ., data = model.matrix(draftedPlayersHDR))
 rpart.plot(dtree)
+```
 
-
+```{r}
 #having some fun with neural networks 
 library(rpart)
 library(randomForest)
