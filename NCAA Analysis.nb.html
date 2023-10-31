@@ -1812,27 +1812,7 @@ uniqueteam &lt;- unique(team)
 max(selected_player_data[\Ortg\])
 filter(selected_player_data, Ortg &gt; 380)
 </code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
 
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuI1F1ZXN0aW9uOiBBcmUgaGlnaCBPZmZlbnNpdmUgb3IgRGVmZW5zaXZlIG1ldHJpY3MgbW9yZSBsaWtseSB0byBnZXQgeW91IGRyYWZ0ZWQ/XG5cbiNpbXBvcnQgZGF0YSBcbmxpYnJhcnkoXFx0aWR5dmVyc2VcXCkgXG5saWJyYXJ5KFxcZHBseXJcXClcbmxpYnJhcnkoXFxnZ3Bsb3QyXFwpXG5saWJyYXJ5KFxccmVhZHhsXFwpXG5cbiNyZWFkIGluIGNzdiBmaWxlc1xucGxheWVycyA8LSByZWFkX2NzdihcXFJlc291cmNlcy9Db2xsZWdlQmFza2V0YmFsbFBsYXllcnMyMDA5LTIwMjEuY3N2XFwpXG5oZWlnaHQgPC0gcmVhZF9jc3YoXFxSZXNvdXJjZXMvTmV3SGVpZ2h0cy5jc3ZcXClcblxuI2dldCBmaWVsZHMgcmVxdWlyZWQgZnJvbSBwbGF5ZXJzXG5wbGF5ZXJVc2VkIDwtIHNlbGVjdChwbGF5ZXJzLCBwbGF5ZXJfbmFtZSwgcGljaylcblxuY29tYmluZWRfcGggPC0gY2JpbmQocGxheWVyVXNlZCwgaGVpZ2h0KVxuXG5kcmFmdGVkUGxheWVyc0hEUiA8LSBzdWJzZXQoY29tYmluZWRfcGgsICFpcy5uYShwaWNrKSlcblxuXG5nZ3Bsb3QoZHJhZnRlZFBsYXllcnNIRFIsIGFlcyh4ID0gcGljaywgeSA9IGh0KSkgK1xuICBnZW9tX3BvaW50KCkgK1xuICBsYWJzKHRpdGxlID0gXFxTY2F0dGVyIFBsb3Qgb2YgSGVpZ2h0IHZzIERyYWZ0IFBpY2tcXCwgeCA9IFxcRHJhZnQgUGlja1xcLCB5ID0gXFxIZWlnaHRcXClcblxuXG5udW1fYmlucyA8LSAzXG5cbiMgQ3JlYXRlIGVxdWFsLXdpZHRoIGJpbnMgZm9yIHRoZSBcXHBpY2tcXCBjb2x1bW5cbmJpbnMgPC0gY3V0KGRyYWZ0ZWRQbGF5ZXJzSERSJHBpY2ssIGJyZWFrcyA9IHNlcShtaW4oZHJhZnRlZFBsYXllcnNIRFIkcGljayksIG1heChkcmFmdGVkUGxheWVyc0hEUiRwaWNrKSwgbGVuZ3RoLm91dCA9IG51bV9iaW5zICsgMSksIGluY2x1ZGUubG93ZXN0ID0gVFJVRSlcblxucHJpbnQoYmlucylcblxuXG5gYGBcbmBgYCJ9 --&gt;
-
-```r
-```r
-#Question: Are high Offensive or Defensive metrics more likly to get you drafted?
 
 #import data 
 library(\tidyverse\) 
@@ -1841,8 +1821,7 @@ library(\ggplot2\)
 library(\readxl\)
 
 #read in csv files
-players &lt;- read_csv(\Resources/CollegeBasketballPlayers2009-2021.csv\)
-height &lt;- read_csv(\Resources/NewHeights.csv\)
+
 
 #get fields required from players
 playerUsed &lt;- select(players, player_name, pick)
@@ -1851,207 +1830,27 @@ combined_ph &lt;- cbind(playerUsed, height)
 
 draftedPlayersHDR &lt;- subset(combined_ph, !is.na(pick))
 
+selected_player_data &lt;- players %&gt;% select(player_name, team, pick, pid, pts, ast, stl, blk, treb, Ortg, drtg, year)
+combined_player_data &lt;- cbind(selected_player_data, height)
 
-ggplot(draftedPlayersHDR, aes(x = pick, y = ht)) +
+\
+set.seed(123) 
+kmeans_result &lt;- kmeans(merged_data, centers = 3)
+print(kmeans_result$cluster)
+
+ggplot(data, aes(x = variable1, y = variable2, color = cluster)) + 
   geom_point() +
-  labs(title = \Scatter Plot of Height vs Draft Pick\, x = \Draft Pick\, y = \Height\)
-
-
-num_bins &lt;- 3
-
-# Create equal-width bins for the \pick\ column
-bins &lt;- cut(draftedPlayersHDR$pick, breaks = seq(min(draftedPlayersHDR$pick), max(draftedPlayersHDR$pick), length.out = num_bins + 1), include.lowest = TRUE)
-
-print(bins)
-</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuZmluYWxfZGF0YSA8LSBmaW5hbF9kYXRhICU+JSBhcnJhbmdlKGRlc2MoZHJhZnRlZCkpXG5cbmRyYWZ0ZWRfMSA8LSBmaW5hbF9kYXRhICU+JSBmaWx0ZXIoZHJhZnRlZCA9PSAxKSAlPiVcbiAgc2FtcGxlX2ZyYWMoMC44KSAjIEFkanVzdCB0aGUgZnJhY3Rpb24gYXMgbmVlZGVkIGZvciB0cmFpbmluZyBkYXRhXG5cbiMgU2FtcGxlIHJvd3Mgd2hlcmUgZHJhZnRlZCA9IDBcbmRyYWZ0ZWRfMCA8LSBmaW5hbF9kYXRhICU+JSBmaWx0ZXIoZHJhZnRlZCA9PSAwKSAlPiVcbiAgc2FtcGxlX2ZyYWMoMC44KSAjIEFkanVzdCB0aGUgZnJhY3Rpb24gYXMgbmVlZGVkIGZvciB0cmFpbmluZyBkYXRhXG5cbiMgQ29tYmluZSBzYW1wbGVkIGRhdGEgZm9yIHRyYWluaW5nIGRhdGFzZXRcbnRyYWluaW5nX2RhdGEgPC0gYmluZF9yb3dzKGRyYWZ0ZWRfMSwgZHJhZnRlZF8wKVxuXG4jIENyZWF0ZSB0ZXN0aW5nIGRhdGFzZXQgYnkgcmVtb3Zpbmcgcm93cyB1c2VkIGluIHRyYWluaW5nIGRhdGFzZXRcbnRlc3RpbmdfZGF0YSA8LSBmaW5hbF9kYXRhICU+JSBhbnRpX2pvaW4odHJhaW5pbmdfZGF0YSlcblxuYGBgXG5gYGAifQ== --&gt;
-
-```r
-```r
-final_data &lt;- final_data %&gt;% arrange(desc(drafted))
-
-drafted_1 &lt;- final_data %&gt;% filter(drafted == 1) %&gt;%
-  sample_frac(0.8) # Adjust the fraction as needed for training data
-
-# Sample rows where drafted = 0
-drafted_0 &lt;- final_data %&gt;% filter(drafted == 0) %&gt;%
-  sample_frac(0.8) # Adjust the fraction as needed for training data
-
-# Combine sampled data for training dataset
-training_data &lt;- bind_rows(drafted_1, drafted_0)
-
-# Create testing dataset by removing rows used in training dataset
-testing_data &lt;- final_data %&gt;% anti_join(training_data)
-</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-output-begin eyJkYXRhIjoiSm9pbmluZyB3aXRoIGBieSA9IGpvaW5fYnkocGxheWVyX25hbWUsIHRlYW0sIHBpY2ssIHBpZCwgcHRzLCBhc3QsIHN0bCwgYmxrLCB0cmViLCBPcnRnLCBkcnRnLCB5ZWFyLCBodCwgYGVsZXZhdGlvbiAobSlgLCBkcmFmdGVkKWBcbiJ9 --&gt;
-</code></pre>
-<p>Joining with
-<code>by = join_by(player_name, team, pick, pid, pts, ast, stl, blk, treb, Ortg, drtg, year, ht,</code>elevation
-(m)<code>, drafted)</code></p>
-<pre><code>
-
-
-&lt;!-- rnb-output-end --&gt;
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuXG4jIFByaW50IHRoZSBkaW1lbnNpb25zIG9mIHRyYWluaW5nIGFuZCB0ZXN0aW5nIGRhdGFzZXRzXG5wcmludChcXFRyYWluaW5nIERhdGEgRGltZW5zaW9uczpcXClcbmBgYFxuYGBgIn0= --&gt;
-
-```r
-```r
-
-# Print the dimensions of training and testing datasets
-print(\Training Data Dimensions:\)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIFxcVHJhaW5pbmcgRGF0YSBEaW1lbnNpb25zOlxcXG4ifQ== --&gt;
-</code></pre>
-<p>[1] Data Dimensions:<br />
-</p>
-<pre><code>
-
-
-&lt;!-- rnb-output-end --&gt;
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxucHJpbnQoZGltKHRyYWluaW5nX2RhdGEpKVxuYGBgXG5gYGAifQ== --&gt;
-
-```r
-```r
-print(dim(training_data))</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIDQ4ODQ5ICAgIDE1XG4ifQ== --&gt;
-</code></pre>
-<p>[1] 48849 15</p>
-<pre><code>
-
-
-&lt;!-- rnb-output-end --&gt;
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxucHJpbnQoXFxUZXN0aW5nIERhdGEgRGltZW5zaW9uczpcXClcbmBgYFxuYGBgIn0= --&gt;
-
-```r
-```r
-print(\Testing Data Dimensions:\)</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIFxcVGVzdGluZyBEYXRhIERpbWVuc2lvbnM6XFxcbiJ9 --&gt;
-</code></pre>
-<p>[1] Data Dimensions:<br />
-</p>
-<pre><code>
-
-
-&lt;!-- rnb-output-end --&gt;
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxucHJpbnQoZGltKHRlc3RpbmdfZGF0YSkpXG5gYGBcbmBgYCJ9 --&gt;
-
-```r
-```r
-print(dim(testing_data))</code></pre>
-<pre><code>
-&lt;!-- rnb-source-end --&gt;
-
-&lt;!-- rnb-output-begin eyJkYXRhIjoiWzFdIDEyMjEyICAgIDE1XG4ifQ== --&gt;
-</code></pre>
-<p>[1] 12212 15</p>
-<pre><code>
-
-
-&lt;!-- rnb-output-end --&gt;
-
-&lt;!-- rnb-chunk-end --&gt;
-
-
-&lt;!-- rnb-text-begin --&gt;
-
-
-
-&lt;!-- rnb-text-end --&gt;
-
-
-&lt;!-- rnb-chunk-begin --&gt;
-
-
-&lt;!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI2hhdmluZyBzb21lIGZ1biB3aXRoIG5ldXJhbCBuZXR3b3JrcyBcbmxpYnJhcnkocnBhcnQpXG5saWJyYXJ5KHJhbmRvbUZvcmVzdClcbmxpYnJhcnkodGlkeXZlcnNlKVxubGlicmFyeShycGFydC5wbG90KVxubGlicmFyeShrZXJhcylcblxuI3Ryb3VibGUgd2l0aCB0aGlzIGRhdGEgaXMgdGhhdCBpdCBjYW4gZ3Vlc3MgMCBldmVyeSB0aW1lIGFuZCBiZSA5OCUgYWNjdXJhdGUgYmVjYXVzZSB0aGVyZSBhcmUgc28gZmV3IDEncyBpbiB0aGUgZHJhZnRlZCBjb2x1bW5cblxudHJhaW5pbmdfZGF0YSA8LSByZWFkX2NzdihcIlRyYWluRGF0YS5jc3ZcIilcbnRlc3RpbmdfZGF0YSA8LSByZWFkX2NzdihcIlRlc3REYXRhLmNzdlwiKVxucHJpbnQoc3VtKGlzLm5hKHRyYWluaW5nX2RhdGEkYXN0KSkpXG5cbm5hLm9taXQodHJhaW5pbmcpXG5cblxuI25ldXJhbCBuZXR3b3JrXG5cblhfdHJhaW4gPC0gdHJhaW5pbmdfZGF0YSAlPiUgc2VsZWN0KHB0cywgYXN0LCBPcnRnKSAlPiUgYXMubWF0cml4KClcbnlfdHJhaW4gPC0gdHJhaW5pbmdfZGF0YSRPcnRnXG5cblhfdGVzdCA8LSB0ZXN0aW5nX2RhdGEgJT4lIHNlbGVjdChwdHMsIGFzdCwgT3J0ZykgJT4lIGFzLm1hdHJpeCgpXG55X3Rlc3QgPC0gdGVzdGluZ19kYXRhJE9ydGdcblxuXG5tb2RlbCA8LSBrZXJhc19tb2RlbF9zZXF1ZW50aWFsKCkgJT4lXG4gIGxheWVyX2RlbnNlKHVuaXRzID0gMTI4LCBhY3RpdmF0aW9uID0gJ3JlbHUnLCBpbnB1dF9zaGFwZSA9IGMoMykpICU+JVxuICBsYXllcl9kZW5zZSh1bml0cyA9IDY0LCBhY3RpdmF0aW9uID0gJ3JlbHUnKSAlPiVcbiAgbGF5ZXJfZGVuc2UodW5pdHMgPSAxKVxuXG4jIENvbXBpbGUgdGhlIG1vZGVsXG5tb2RlbCAlPiUgY29tcGlsZShcbiAgbG9zcyA9ICdtZWFuX3NxdWFyZWRfZXJyb3InLCAgXG4gIG9wdGltaXplciA9IG9wdGltaXplcl9hZGFtKGxyPTAuMDEpICAgIyB1c2Ugb3RoZXIgb3B0aW1pemVycyBsaWtlIG9wdGltaXplcl9zZ2QoKSBpZiBuZWVkZWRcbilcblxuXG4jIFRyYWluIHRoZSBtb2RlbFxuaGlzdG9yeSA8LSBtb2RlbCAlPiUgZml0KFxuICB4ID0gWF90cmFpbixcbiAgeSA9IHlfdHJhaW4sXG4gIGVwb2NocyA9IDIwLCAgICAgICAgICAgICAjIE51bWJlciBvZiB0cmFpbmluZyBpdGVyYXRpb25zXG4gIGJhdGNoX3NpemUgPSAzMiAgICAgICAgICAgIyBOdW1iZXIgb2Ygc2FtcGxlcyBwZXIgZ3JhZGllbnQgdXBkYXRlXG4pXG5cblxuIyBNYWtlIHByZWRpY3Rpb25zIG9uIHRoZSB0ZXN0IGRhdGFcbnByZWRpY3Rpb25zIDwtIG1vZGVsICU+JSBwcmVkaWN0KFhfdGVzdClcblxuIyBDYWxjdWxhdGUgTWVhbiBBYnNvbHV0ZSBFcnJvciAoTUFFKVxubWFlIDwtIG1lYW4oYWJzKHByZWRpY3Rpb25zIC0geV90ZXN0KSlcblxuYGBgIn0= --&gt;
-
-```r
-#having some fun with neural networks 
-library(rpart)
-library(randomForest)
-library(tidyverse)
-library(rpart.plot)
-library(keras)
-
-#trouble with this data is that it can guess 0 every time and be 98% accurate because there are so few 1&#39;s in the drafted column
-
-training_data &lt;- read_csv(&quot;TrainData.csv&quot;)
-testing_data &lt;- read_csv(&quot;TestData.csv&quot;)
-print(sum(is.na(training_data$ast)))
-
-na.omit(training)
-
-
-#neural network
-
-X_train &lt;- training_data %&gt;% select(pts, ast, Ortg) %&gt;% as.matrix()
-y_train &lt;- training_data$Ortg
-
-X_test &lt;- testing_data %&gt;% select(pts, ast, Ortg) %&gt;% as.matrix()
-y_test &lt;- testing_data$Ortg
-
-
-model &lt;- keras_model_sequential() %&gt;%
-  layer_dense(units = 128, activation = &#39;relu&#39;, input_shape = c(3)) %&gt;%
-  layer_dense(units = 64, activation = &#39;relu&#39;) %&gt;%
-  layer_dense(units = 1)
-
-# Compile the model
-model %&gt;% compile(
-  loss = &#39;mean_squared_error&#39;,  
-  optimizer = optimizer_adam(lr=0.01)   # use other optimizers like optimizer_sgd() if needed
-)
-
-
-# Train the model
-history &lt;- model %&gt;% fit(
-  x = X_train,
-  y = y_train,
-  epochs = 20,             # Number of training iterations
-  batch_size = 32           # Number of samples per gradient update
-)
-
-
-# Make predictions on the test data
-predictions &lt;- model %&gt;% predict(X_test)
-
-# Calculate Mean Absolute Error (MAE)
-mae &lt;- mean(abs(predictions - y_test))
-</code></pre>
+  theme_minimal()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
-
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpUaGlzIGlzIGFuIFtSIE1hcmtkb3duXShodHRwOi8vcm1hcmtkb3duLnJzdHVkaW8uY29tKSBOb3RlYm9vay4gV2hlbiB5b3UgZXhlY3V0ZSBjb2RlIHdpdGhpbiB0aGUgbm90ZWJvb2ssIHRoZSByZXN1bHRzIGFwcGVhciBiZW5lYXRoIHRoZSBjb2RlLiANCg0KVHJ5IGV4ZWN1dGluZyB0aGlzIGNodW5rIGJ5IGNsaWNraW5nIHRoZSAqUnVuKiBidXR0b24gd2l0aGluIHRoZSBjaHVuayBvciBieSBwbGFjaW5nIHlvdXIgY3Vyc29yIGluc2lkZSBpdCBhbmQgcHJlc3NpbmcgKkN0cmwrU2hpZnQrRW50ZXIqLiANCg0KYGBge3J9DQpwbG90KGNhcnMpDQpgYGANCg0KQWRkIGEgbmV3IGNodW5rIGJ5IGNsaWNraW5nIHRoZSAqSW5zZXJ0IENodW5rKiBidXR0b24gb24gdGhlIHRvb2xiYXIgb3IgYnkgcHJlc3NpbmcgKkN0cmwrQWx0K0kqLg0KDQpXaGVuIHlvdSBzYXZlIHRoZSBub3RlYm9vaywgYW4gSFRNTCBmaWxlIGNvbnRhaW5pbmcgdGhlIGNvZGUgYW5kIG91dHB1dCB3aWxsIGJlIHNhdmVkIGFsb25nc2lkZSBpdCAoY2xpY2sgdGhlICpQcmV2aWV3KiBidXR0b24gb3IgcHJlc3MgKkN0cmwrU2hpZnQrSyogdG8gcHJldmlldyB0aGUgSFRNTCBmaWxlKS4NCg0KVGhlIHByZXZpZXcgc2hvd3MgeW91IGEgcmVuZGVyZWQgSFRNTCBjb3B5IG9mIHRoZSBjb250ZW50cyBvZiB0aGUgZWRpdG9yLiBDb25zZXF1ZW50bHksIHVubGlrZSAqS25pdCosICpQcmV2aWV3KiBkb2VzIG5vdCBydW4gYW55IFIgY29kZSBjaHVua3MuIEluc3RlYWQsIHRoZSBvdXRwdXQgb2YgdGhlIGNodW5rIHdoZW4gaXQgd2FzIGxhc3QgcnVuIGluIHRoZSBlZGl0b3IgaXMgZGlzcGxheWVkLg0KYGBge3J9DQojaW1wb3J0IGRhdGEgDQpsaWJyYXJ5KCJ0aWR5dmVyc2UiKSANCmxpYnJhcnkoImRwbHlyIikNCmxpYnJhcnkoImdncGxvdDIiKQ0KbGlicmFyeSgicmVhZHhsIikNCg0KcGxheWVyczIwMDkgPC0gcmVhZF9jc3YoIlJlc291cmNlcy9Db2xsZWdlQmFza2V0YmFsbFBsYXllcnMyMDA5LTIwMjEuY3N2IikNCnBsYXllcnMyMDIyIDwtIHJlYWRfY3N2KCJSZXNvdXJjZXMvQ29sbGVnZUJhc2tldGJhbGxQbGF5ZXJzMjAyMi5jc3YiKQ0KZHJhZnRlZCA8LSByZWFkX3hsc3goIlJlc291cmNlcy9EcmFmdGVkUGxheWVyczIwMDktMjAyMS54bHN4IikNCg0Kc2VsZWN0ZWRfcGxheWVyX2RhdGEgPC0gcGxheWVyczIwMDkgJT4lIHNlbGVjdChwbGF5ZXJfbmFtZSwgdGVhbSwgcGlkLCBodCwgcHRzLCBhc3QsIHN0bCwgYmxrLCB0cmViLCBPcnRnLCBkcnRnLCB5ZWFyKQ0KDQpzdW1tYXJ5KHNlbGVjdGVkX3BsYXllcl9kYXRhKQ0KcHRzX2JveCA8LSBnZ3Bsb3Qoc2VsZWN0ZWRfcGxheWVyX2RhdGEsIGFlcyh5ID0gcHRzKSwgbmEucm0gPSBUUlVFKSArIGdlb21fYm94cGxvdChmaWxsID0gJyM2OWIzYTInLCBjb2xvcj0nYmxhY2snLCBhbHBoYSA9IDEpICsgbGFicyh0aXRsZSA9ICJCb3hwbG90IG9mIFBUUyIpDQpwdHNfaGlzdCA8LSBnZ3Bsb3Qoc2VsZWN0ZWRfcGxheWVyX2RhdGEsIGFlcyh4ID0gcHRzKSkgKyBnZW9tX2hpc3RvZ3JhbShiaW53aWR0aCA9IDEsIGZpbGwgPSAieWVsbG93IiwgY29sb3IgPSAiYmxhY2siKSArIGxhYnModGl0bGUgPSAiRGlzdHJpYnV0aW9uIG9mIFBUUyIsIHggPSAiUFRTIikNCnBsb3Qoc2VsZWN0ZWRfcGxheWVyX2RhdGFbLCJPcnRnIl0pDQpwdHNfYm94DQpwdHNfaGlzdA0KdGVhbSA8LSBzZWxlY3RlZF9wbGF5ZXJfZGF0YVssICJ0ZWFtIl0NCnVuaXF1ZXRlYW0gPC0gdW5pcXVlKHRlYW0pDQoNCm1heChzZWxlY3RlZF9wbGF5ZXJfZGF0YVsiT3J0ZyJdKQ0KZmlsdGVyKHNlbGVjdGVkX3BsYXllcl9kYXRhLCBPcnRnID4gMzgwKQ0KDQoNCmBgYA0KDQpgYGB7cn0NCiNRdWVzdGlvbjogQXJlIGhpZ2ggT2ZmZW5zaXZlIG9yIERlZmVuc2l2ZSBtZXRyaWNzIG1vcmUgbGlrbHkgdG8gZ2V0IHlvdSBkcmFmdGVkPw0KDQojaW1wb3J0IGRhdGEgDQpsaWJyYXJ5KCJ0aWR5dmVyc2UiKSANCmxpYnJhcnkoImRwbHlyIikNCmxpYnJhcnkoImdncGxvdDIiKQ0KbGlicmFyeSgicmVhZHhsIikNCg0KI3JlYWQgaW4gY3N2IGZpbGVzDQpwbGF5ZXJzIDwtIHJlYWRfY3N2KCJSZXNvdXJjZXMvQ29sbGVnZUJhc2tldGJhbGxQbGF5ZXJzMjAwOS0yMDIxLmNzdiIpDQpoZWlnaHQgPC0gcmVhZF9jc3YoIlJlc291cmNlcy9OZXdIZWlnaHRzLmNzdiIpDQoNCiNnZXQgZmllbGRzIHJlcXVpcmVkIGZyb20gcGxheWVycw0KcGxheWVyVXNlZCA8LSBzZWxlY3QocGxheWVycywgcGxheWVyX25hbWUsIHBpY2spDQoNCmNvbWJpbmVkX3BoIDwtIGNiaW5kKHBsYXllclVzZWQsIGhlaWdodCkNCg0KZHJhZnRlZFBsYXllcnNIRFIgPC0gc3Vic2V0KGNvbWJpbmVkX3BoLCAhaXMubmEocGljaykpDQoNCg0KZ2dwbG90KGRyYWZ0ZWRQbGF5ZXJzSERSLCBhZXMoeCA9IHBpY2ssIHkgPSBodCkpICsNCiAgZ2VvbV9wb2ludCgpICsNCiAgbGFicyh0aXRsZSA9ICJTY2F0dGVyIFBsb3Qgb2YgSGVpZ2h0IHZzIERyYWZ0IFBpY2siLCB4ID0gIkRyYWZ0IFBpY2siLCB5ID0gIkhlaWdodCIpDQoNCg0KbnVtX2JpbnMgPC0gMw0KDQojIENyZWF0ZSBlcXVhbC13aWR0aCBiaW5zIGZvciB0aGUgInBpY2siIGNvbHVtbg0KYmlucyA8LSBjdXQoZHJhZnRlZFBsYXllcnNIRFIkcGljaywgYnJlYWtzID0gc2VxKG1pbihkcmFmdGVkUGxheWVyc0hEUiRwaWNrKSwgbWF4KGRyYWZ0ZWRQbGF5ZXJzSERSJHBpY2spLCBsZW5ndGgub3V0ID0gbnVtX2JpbnMgKyAxKSwgaW5jbHVkZS5sb3dlc3QgPSBUUlVFKQ0KDQpwcmludChiaW5zKQ0KDQoNCmBgYA0KDQpgYGB7cn0NCmxpYnJhcnkoImRwbHlyIikNCmZpbmFsX2RhdGEgPC0gcmVhZF9jc3YoIkZpbmFsRGF0YS5jc3YiKQ0KZmluYWxfZGF0YSA8LSBmaW5hbF9kYXRhICU+JSBtdXRhdGUoZHJhZnRlZCA9IE5BKQ0KZm9yKGkgaW4gMTpucm93KGZpbmFsX2RhdGEpKXsNCiAgaWYoaXMubmEoZmluYWxfZGF0YSRwaWNrW2ldKSl7DQogICAgZmluYWxfZGF0YSRkcmFmdGVkW2ldID0gMA0KICB9DQogIGVsc2V7DQogICAgZmluYWxfZGF0YSRkcmFmdGVkW2ldID0gMQ0KICB9DQp9DQoNCndyaXRlX2NzdihmaW5hbF9kYXRhLCAiRmluYWxEYXRhLmNzdiIpDQoNCg0KI3NwbGl0IGludG8gdHJhaW4gYW5kIHRlc3QgYWZ0ZXIgc29ydGluZw0KZmluYWxfZGF0YSA8LSBmaW5hbF9kYXRhICU+JSBhcnJhbmdlKGRlc2MoZHJhZnRlZCkpDQoNCmRyYWZ0ZWRfMSA8LSBmaW5hbF9kYXRhICU+JSBmaWx0ZXIoZHJhZnRlZCA9PSAxKSAlPiUNCiAgc2FtcGxlX2ZyYWMoMC44KSAjIEFkanVzdCB0aGUgZnJhY3Rpb24gYXMgbmVlZGVkIGZvciB0cmFpbmluZyBkYXRhDQoNCiMgU2FtcGxlIHJvd3Mgd2hlcmUgZHJhZnRlZCA9IDANCmRyYWZ0ZWRfMCA8LSBmaW5hbF9kYXRhICU+JSBmaWx0ZXIoZHJhZnRlZCA9PSAwKSAlPiUNCiAgc2FtcGxlX2ZyYWMoMC44KSAjIEFkanVzdCB0aGUgZnJhY3Rpb24gYXMgbmVlZGVkIGZvciB0cmFpbmluZyBkYXRhDQoNCiMgQ29tYmluZSBzYW1wbGVkIGRhdGEgZm9yIHRyYWluaW5nIGRhdGFzZXQNCnRyYWluaW5nX2RhdGEgPC0gYmluZF9yb3dzKGRyYWZ0ZWRfMSwgZHJhZnRlZF8wKQ0KDQojIENyZWF0ZSB0ZXN0aW5nIGRhdGFzZXQgYnkgcmVtb3Zpbmcgcm93cyB1c2VkIGluIHRyYWluaW5nIGRhdGFzZXQNCnRlc3RpbmdfZGF0YSA8LSBmaW5hbF9kYXRhICU+JSBhbnRpX2pvaW4odHJhaW5pbmdfZGF0YSkNCg0KI2JlbmppIGlzIGNvb2wNCmBgYA0KDQpgYGB7cn0NCiNoYXZpbmcgc29tZSBmdW4gd2l0aCBuZXVyYWwgbmV0d29ya3MgDQpsaWJyYXJ5KHJwYXJ0KQ0KbGlicmFyeShyYW5kb21Gb3Jlc3QpDQpsaWJyYXJ5KHRpZHl2ZXJzZSkNCmxpYnJhcnkocnBhcnQucGxvdCkNCmxpYnJhcnkoa2VyYXMpDQoNCiN0cm91YmxlIHdpdGggdGhpcyBkYXRhIGlzIHRoYXQgaXQgY2FuIGd1ZXNzIDAgZXZlcnkgdGltZSBhbmQgYmUgOTglIGFjY3VyYXRlIGJlY2F1c2UgdGhlcmUgYXJlIHNvIGZldyAxJ3MgaW4gdGhlIGRyYWZ0ZWQgY29sdW1uDQoNCnRyYWluaW5nX2RhdGEgPC0gcmVhZF9jc3YoIlRyYWluRGF0YS5jc3YiKQ0KdGVzdGluZ19kYXRhIDwtIHJlYWRfY3N2KCJUZXN0RGF0YS5jc3YiKQ0KcHJpbnQoc3VtKGlzLm5hKHRyYWluaW5nX2RhdGEkYXN0KSkpDQoNCm5hLm9taXQodHJhaW5pbmcpDQoNCg0KI25ldXJhbCBuZXR3b3JrDQoNClhfdHJhaW4gPC0gdHJhaW5pbmdfZGF0YSAlPiUgc2VsZWN0KHB0cywgYXN0LCBPcnRnKSAlPiUgYXMubWF0cml4KCkNCnlfdHJhaW4gPC0gdHJhaW5pbmdfZGF0YSRPcnRnDQoNClhfdGVzdCA8LSB0ZXN0aW5nX2RhdGEgJT4lIHNlbGVjdChwdHMsIGFzdCwgT3J0ZykgJT4lIGFzLm1hdHJpeCgpDQp5X3Rlc3QgPC0gdGVzdGluZ19kYXRhJE9ydGcNCg0KDQptb2RlbCA8LSBrZXJhc19tb2RlbF9zZXF1ZW50aWFsKCkgJT4lDQogIGxheWVyX2RlbnNlKHVuaXRzID0gMTI4LCBhY3RpdmF0aW9uID0gJ3JlbHUnLCBpbnB1dF9zaGFwZSA9IGMoMykpICU+JQ0KICBsYXllcl9kZW5zZSh1bml0cyA9IDY0LCBhY3RpdmF0aW9uID0gJ3JlbHUnKSAlPiUNCiAgbGF5ZXJfZGVuc2UodW5pdHMgPSAxKQ0KDQojIENvbXBpbGUgdGhlIG1vZGVsDQptb2RlbCAlPiUgY29tcGlsZSgNCiAgbG9zcyA9ICdtZWFuX3NxdWFyZWRfZXJyb3InLCAgDQogIG9wdGltaXplciA9IG9wdGltaXplcl9hZGFtKGxyPTAuMDEpICAgIyB1c2Ugb3RoZXIgb3B0aW1pemVycyBsaWtlIG9wdGltaXplcl9zZ2QoKSBpZiBuZWVkZWQNCikNCg0KDQojIFRyYWluIHRoZSBtb2RlbA0KaGlzdG9yeSA8LSBtb2RlbCAlPiUgZml0KA0KICB4ID0gWF90cmFpbiwNCiAgeSA9IHlfdHJhaW4sDQogIGVwb2NocyA9IDIwLCAgICAgICAgICAgICAjIE51bWJlciBvZiB0cmFpbmluZyBpdGVyYXRpb25zDQogIGJhdGNoX3NpemUgPSAzMiAgICAgICAgICAgIyBOdW1iZXIgb2Ygc2FtcGxlcyBwZXIgZ3JhZGllbnQgdXBkYXRlDQopDQoNCg0KIyBNYWtlIHByZWRpY3Rpb25zIG9uIHRoZSB0ZXN0IGRhdGENCnByZWRpY3Rpb25zIDwtIG1vZGVsICU+JSBwcmVkaWN0KFhfdGVzdCkNCg0KIyBDYWxjdWxhdGUgTWVhbiBBYnNvbHV0ZSBFcnJvciAoTUFFKQ0KbWFlIDwtIG1lYW4oYWJzKHByZWRpY3Rpb25zIC0geV90ZXN0KSkNCg0KYGBgDQo=</div>
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI0NsYXNzaWZpY2F0aW9uIGFsZ29yaXRobSBcbmluc3RhbGwucGFja2FnZXMoXCJjbGFzc1wiKVxubGlicmFyeShjbGFzcylcblxuXG5gYGAifQ== -->
+<pre class="r"><code>#Classification algorithm 
+install.packages(&quot;class&quot;)
+library(class)
+</code></pre>
 
 
 
