@@ -122,5 +122,56 @@ dtree <- rpart(class ~ ., data = model.matrix(draftedPlayersHDR))
 rpart.plot(dtree)
 
 
+#having some fun with neural networks 
+library(rpart)
+library(randomForest)
+library(tidyverse)
+library(rpart.plot)
+library(keras)
+
+#trouble with this data is that it can guess 0 every time and be 98% accurate because there are so few 1's in the drafted column
+
+training_data <- read_csv("TrainData.csv")
+testing_data <- read_csv("TestData.csv")
+print(sum(is.na(training_data$ast)))
+
+na.omit(training)
+
+
+#neural network
+
+X_train <- training_data %>% select(pts, ast, Ortg) %>% as.matrix()
+y_train <- training_data$Ortg
+
+X_test <- testing_data %>% select(pts, ast, Ortg) %>% as.matrix()
+y_test <- testing_data$Ortg
+
+
+model <- keras_model_sequential() %>%
+  layer_dense(units = 128, activation = 'relu', input_shape = c(3)) %>%
+  layer_dense(units = 64, activation = 'relu') %>%
+  layer_dense(units = 1)
+
+# Compile the model
+model %>% compile(
+  loss = 'mean_squared_error',  
+  optimizer = optimizer_adam(lr=0.01)   # use other optimizers like optimizer_sgd() if needed
+)
+
+
+# Train the model
+history <- model %>% fit(
+  x = X_train,
+  y = y_train,
+  epochs = 20,             # Number of training iterations
+  batch_size = 32           # Number of samples per gradient update
+)
+
+
+# Make predictions on the test data
+predictions <- model %>% predict(X_test)
+
+# Calculate Mean Absolute Error (MAE)
+mae <- mean(abs(predictions - y_test))
 
 ```
