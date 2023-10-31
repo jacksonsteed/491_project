@@ -125,18 +125,6 @@ train_data <- training(data_split)
 test_data <- testing(data_split)
 draftedPlayersHDR
 
-#dtree <- rpart(class ~ ., data = model.matrix(train_data))
-dtree <- rpart(class ~ ., data = train_data)
-
-rpart.plot(dtree)
-
-
-
-
-draftedPlayersHDR
-dtree <- rpart(class ~ ., data = model.matrix(draftedPlayersHDR))
-rpart.plot(dtree)
-
 
 #having some fun with neural networks 
 library(rpart)
