@@ -56,6 +56,7 @@ library("readxl")
 #read in csv files
 players <- read_csv("Resources/CollegeBasketballPlayers2009-2021.csv")
 height <- read_csv("Resources/NewHeights.csv")
+unique_team <- read_csv("Resources/unique_team.csv")
 
 #get fields required from players
 playerUsed <- select(players, player_name, pick)
@@ -64,19 +65,70 @@ combined_ph <- cbind(playerUsed, height)
 
 draftedPlayersHDR <- subset(combined_ph, !is.na(pick))
 
+selected_player_data <- players %>% select(player_name, team, pick, pid, pts, ast, stl, blk, treb, Ortg, drtg, year)
+combined_player_data <- cbind(selected_player_data, height)
 
-ggplot(draftedPlayersHDR, aes(x = pick, y = ht)) +
-  geom_point() +
-  labs(title = "Scatter Plot of Height vs Draft Pick", x = "Draft Pick", y = "Height")
+merged_data <- left_join(combined_player_data, unique_team, by = c("team" = "team")) %>%
+  filter(height >= 5.0 & height <= 8.0)
 
-
-num_bins <- 3
-
-# Create equal-width bins for the "pick" column
-bins <- cut(draftedPlayersHDR$pick, breaks = seq(min(draftedPlayersHDR$pick), max(draftedPlayersHDR$pick), length.out = num_bins + 1), include.lowest = TRUE)
-
-print(bins)
+write_csv(merged_data,"FinalData.csv")
 
 
 ```
 
+
+
+
+```{r}
+players <- read_csv("Resources/CollegeBasketballPlayers2009-2021.csv")
+height <- read_csv("Resources/NewHeights.csv")
+unique_team <- read_csv("Resources/unique_team.csv")
+selected_player_data <- players %>% select(player_name, team, pid, ht, pts, ast, stl, blk, treb, Ortg, drtg, year)
+merged_data <- left_join(selected_player_data, unique_team, by = c("team" = "team"))
+
+set.seed(123) 
+kmeans_result <- kmeans(merged_data, centers = 3)
+print(kmeans_result$cluster)
+
+ggplot(data, aes(x = variable1, y = variable2, color = cluster)) + 
+  geom_point() +
+  theme_minimal()
+```
+
+```{r}
+#Classification algorithm 
+install.packages("class")
+library(class)
+
+
+```
+
+```{r}
+#Decision Tree
+library(rpart) 
+library(rpart.plot)
+library(randomForest)
+library(tidyverse)
+library(tidymodels)
+library(tidyr)
+
+#read in csv files
+players <- read_csv("Resources/CollegeBasketballPlayers2009-2021.csv")
+height <- read_csv("Resources/NewHeights.csv")
+
+# Split the data into training and testing sets
+set.seed(123)
+data_split <- initial_split(draftedPlayersHDR, prop = 0.75)
+train_data <- training(data_split)
+
+test_data <- testing(data_split)
+draftedPlayersHDR
+
+#dtree <- rpart(class ~ ., data = model.matrix(train_data))
+dtree <- rpart(class ~ ., data = train_data)
+
+rpart.plot(dtree)
+
+
+
+```
