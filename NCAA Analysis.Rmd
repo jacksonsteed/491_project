@@ -113,30 +113,25 @@ library(tidymodels)
 library(tidyr)
 
 
-#read in csv files
-players <- read_csv("Resources/CollegeBasketballPlayers2009-2021.csv")
-height <- read_csv("Resources/NewHeights.csv")
 
-# Split the data into training and testing sets
-set.seed(123)
-data_split <- initial_split(draftedPlayersHDR, prop = 0.75)
-train_data <- training(data_split)
+#creating training and testing data:
+#split into train and test after sorting
+final_data <- final_data %>% arrange(desc(drafted))
 
-test_data <- testing(data_split)
-draftedPlayersHDR
+drafted_1 <- final_data %>% filter(drafted == 1) %>%  #sdf
+  sample_frac(0.8) # Adjust the fraction as needed for training data
 
- 
-#dtree <- rpart(class ~ ., data = model.matrix(train_data))
-dtree <- rpart(class ~ ., data = train_data)
+# Sample rows where drafted = 0
+drafted_0 <- final_data %>% filter(drafted == 0) %>%  #qwe
+  sample_frac(0.8) # Adjust the fraction as needed for training data
 
-rpart.plot(dtree)
+# Combine sampled data for training dataset
+training_data <- bind_rows(drafted_1, drafted_0)  #qwe
 
+# Create testing dataset by removing rows used in training dataset
+testing_data <- final_data %>% anti_join(training_data)  #wqe
 
-
-
-draftedPlayersHDR
-dtree <- rpart(class ~ ., data = model.matrix(draftedPlayersHDR))
-rpart.plot(dtree)
+#benji is cool
 ```
 
 ```{r}
