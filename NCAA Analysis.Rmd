@@ -72,8 +72,6 @@ merged_data <- left_join(combined_player_data, unique_team, by = c("team" = "tea
   filter(height >= 5.0 & height <= 8.0)
 
 write_csv(merged_data,"FinalData.csv")
-
-
 ```
 
 
@@ -108,14 +106,17 @@ library(class)
 library(rpart) 
 library(rpart.plot)
 library(randomForest)
-library(tidyverse)
-library(tidymodels)
-library(tidyr)
-
-
+library("tidyverse")
+library("tidymodels")
+library("tidyr")
+library("readxl")
+library("dyplr")
 
 #creating training and testing data:
 #split into train and test after sorting
+drafted <- read_xlsx("Resources/DraftedPlayers2009-2021.xlsx")
+
+final_data <- read_csv("FinalData.csv")
 final_data <- final_data %>% arrange(desc(drafted))
 
 drafted_1 <- final_data %>% filter(drafted == 1) %>%  #sdf
@@ -131,7 +132,11 @@ training_data <- bind_rows(drafted_1, drafted_0)  #qwe
 # Create testing dataset by removing rows used in training dataset
 testing_data <- final_data %>% anti_join(training_data)  #wqe
 
-#benji is cool
+view(training_data)
+players <- read_csv("Resources/FinalData.csv")
+dtre <-rpart(class ~ ., data = )
+
+
 ```
 
 ```{r}
