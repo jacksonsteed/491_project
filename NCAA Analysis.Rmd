@@ -81,37 +81,92 @@ print(bins)
 ```
 
 ```{r}
+library("tidyverse") 
 library("dplyr")
-final_data <- read_csv("FinalData.csv")
-final_data <- final_data %>% mutate(drafted = NA)
-for(i in 1:nrow(final_data)){
-  if(is.na(final_data$pick[i])){
-    final_data$drafted[i] = 0
+library("ggplot2")
+library("readxl")
+  final_data <- read_csv("FinalData.csv")
+  final_data <- final_data %>% mutate(drafted = NA)
+  for(i in 1:nrow(final_data)){
+    if(is.na(final_data$pick[i])){
+      final_data$drafted[i] = 0
+    }
+    else{
+      final_data$drafted[i] = 1
+    }
   }
-  else{
-    final_data$drafted[i] = 1
-  }
-}
+  
+  write_csv(final_data, "FinalData.csv")
+  
+  
+  #split into train and test after sorting
+  final_data <- final_data %>% arrange(desc(drafted))
+  
+  drafted_1 <- final_data %>% filter(drafted == 1) %>%
+    sample_frac(0.8) # Adjust the fraction as needed for training data
+  
+  # Sample rows where drafted = 0
+  drafted_0 <- final_data %>% filter(drafted == 0) %>%
+    sample_frac(0.8) # Adjust the fraction as needed for training data
+  
+  # Combine sampled data for training dataset
+  training_data <- bind_rows(drafted_1, drafted_0)
+  
+  # Create testing dataset by removing rows used in training dataset
+  testing_data <- final_data %>% anti_join(training_data)
+  
+  write_csv(testing_data, "TestData.csv" )
+  write_csv(training_data, "TrainData.csv")
+```
 
-write_csv(final_data, "FinalData.csv")
+
+```{r}
+#having some fun with neural networks 
+library(rpart)
+library(randomForest)
+library(tidyverse)
+library(rpart.plot)
+
+#trouble with this data is that it can guess 0 every time and be 98% accurate because there are so few 1's in the drafted column
+
+training_data <- read_csv("TrainData.csv")
+testing_data <- read_csv("TestData.csv")
+#neural network
+
+X_train <- training_data %>% select(pts, ast, drtg) %>% as.matrix()
+y_train <- training_data$Ortg
+
+X_test <- testing_data %>% select(pts, ast, drtg) %>% as.matrix()
+y_test <- testing_data$Ortg
+
+library(keras)
+
+model <- keras_model_sequential() %>%
+  layer_dense(units = 128, activation = 'relu', input_shape = c(3)) %>%
+  layer_dense(units = 64, activation = 'relu') %>%
+  layer_dense(units = 1)
+
+# Compile the model
+model %>% compile(
+  loss = 'mean_squared_error',  
+  optimizer = optimizer_adam(lr=0.01)   # use other optimizers like optimizer_sgd() if needed
+)
 
 
-#split into train and test after sorting
-final_data <- final_data %>% arrange(desc(drafted))
+# Train the model
+history <- model %>% fit(
+  x = X_train,
+  y = y_train,
+  epochs = 20,             # Number of training iterations
+  batch_size = 32           # Number of samples per gradient update
+)
 
-drafted_1 <- final_data %>% filter(drafted == 1) %>%
-  sample_frac(0.8) # Adjust the fraction as needed for training data
 
-# Sample rows where drafted = 0
-drafted_0 <- final_data %>% filter(drafted == 0) %>%
-  sample_frac(0.8) # Adjust the fraction as needed for training data
+# Make predictions on the test data
+predictions <- model %>% predict(X_test)
 
-# Combine sampled data for training dataset
-training_data <- bind_rows(drafted_1, drafted_0)
-
-# Create testing dataset by removing rows used in training dataset
-testing_data <- final_data %>% anti_join(training_data)
-
+# Calculate Mean Absolute Error (MAE)
+mae <- mean(abs(predictions - y_test))
 
 ```
 
