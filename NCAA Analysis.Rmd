@@ -113,28 +113,58 @@ library(tidymodels)
 library(tidyr)
 
 
+```
+
+```{r}
+#JACKSON __________________________________________________________________________________________________________________________
+
+library("dplyr")
+final_data <- read_csv("FinalData.csv")
+final_data <- final_data %>% mutate(drafted = NA)
+for(i in 1:nrow(final_data)){
+  if(is.na(final_data$pick[i])){
+    final_data$drafted[i] = 0
+  }
+  else{
+    final_data$drafted[i] = 1
+  }
+}
+
+write_csv(final_data, "FinalData.csv")
 
 #creating training and testing data:
 #split into train and test after sorting
 final_data <- final_data %>% arrange(desc(drafted))
 
-drafted_1 <- final_data %>% filter(drafted == 1) %>%  #sdf
+drafted_1 <- final_data %>% filter(drafted == 1) %>%
   sample_frac(0.8) # Adjust the fraction as needed for training data
 
 # Sample rows where drafted = 0
-drafted_0 <- final_data %>% filter(drafted == 0) %>%  #qwe
+drafted_0 <- final_data %>% filter(drafted == 0) %>%
   sample_frac(0.8) # Adjust the fraction as needed for training data
 
+#sample of drafted = 0 but only about 8500
+#making a smaller amount of undrafted players to try and balance the data a bit
+print(sum(final_data$drafted))
+subset_undrafted <- drafted_0 %>% sample_n(1435, replace = FALSE)
+mini_undrafted <- subset_undrafted %>% sample_frac(0.8)
+
+small_train <- bind_rows(drafted_1, mini_undrafted)
+small_test <- subset_undrafted %>% anti_join(small_train)
+
+write_csv(small_test, "small_test.csv")
+write_csv(small_train, "small_train.csv")
+
 # Combine sampled data for training dataset
-training_data <- bind_rows(drafted_1, drafted_0)  #qwe
+training_data <- bind_rows(drafted_1, drafted_0)
 
 # Create testing dataset by removing rows used in training dataset
-testing_data <- final_data %>% anti_join(training_data)  #wqe
+testing_data <- final_data %>% anti_join(training_data) 
+
+write_csv(training_data, "trainingData.csv")
+write_csv(testing_data, "testingData.csv")
 
 #benji is cool
-```
-
-```{r}
 #having some fun with neural networks 
 library(rpart)
 library(randomForest)
@@ -144,31 +174,53 @@ library(keras)
 
 #trouble with this data is that it can guess 0 every time and be 98% accurate because there are so few 1's in the drafted column
 
-training_data <- read_csv("TrainData.csv")
-testing_data <- read_csv("TestData.csv")
-print(sum(is.na(training_data$ast)))
+training_data <- read_csv("trainingData.csv")
+testing_data <- read_csv("testingData.csv")
+print(sum(is.na(small_train$pts)))
 
-na.omit(training)
 
+
+small_train <- select(small_train, -pick, -player_name, -team, -year)
+small_test <- select(small_test, -pick, -player_name, -team, -year, )
+
+preprocess_data <- function(data) {
+  data[] <- lapply(data, function(x) {
+    if(is.numeric(x)) {
+      x[is.infinite(x) | is.nan(x)] <- 0
+      x[is.na(x)] <- mean(x, na.rm = TRUE)
+      return(x)
+    } else {
+      return(as.numeric(x))
+    }
+  })
+  return(data)
+}
+
+training_data <- preprocess_data(small_train)
+testing_data <- preprocess_data(small_test)
+training_data <- na.omit(training_data)
+# Check for any remaining NAs
+sum(is.na(training_data))
+sum(is.na(testing_data))
 
 #neural network
 
-X_train <- training_data %>% select(pts, ast, Ortg) %>% as.matrix()
-y_train <- training_data$Ortg
+X_train <- training_data %>% select(-pid, -drafted) %>%  as.matrix()
+y_train <- training_data$drafted
 
-X_test <- testing_data %>% select(pts, ast, Ortg) %>% as.matrix()
-y_test <- testing_data$Ortg
+X_test <- testing_data %>% select(-pid, -drafted) %>% as.matrix()
+y_test <- testing_data$drafted
 
 
 model <- keras_model_sequential() %>%
-  layer_dense(units = 128, activation = 'relu', input_shape = c(3)) %>%
-  layer_dense(units = 64, activation = 'relu') %>%
-  layer_dense(units = 1)
+  layer_dense(units = 64, activation = 'relu', input_shape = c(9)) %>%
+  layer_dense(units = 1, activation = 'sigmoid')
 
 # Compile the model
 model %>% compile(
-  loss = 'mean_squared_error',  
-  optimizer = optimizer_adam(lr=0.01)   # use other optimizers like optimizer_sgd() if needed
+  loss = 'binary_crossentropy',  
+  optimizer = optimizer_adam(),   # use other optimizers like optimizer_sgd() if needed
+  metrics = c('accuracy')
 )
 
 
@@ -179,6 +231,14 @@ history <- model %>% fit(
   epochs = 20,             # Number of training iterations
   batch_size = 32           # Number of samples per gradient update
 )
+
+evaluation <- model %>% evaluate(X_test, y_test, verbose = 0)
+accuracy <- evaluation[[2]]  # Access the accuracy value from the evaluation result
+
+print(paste("Accuracy:", accuracy))
+
+
+
 
 
 # Make predictions on the test data
